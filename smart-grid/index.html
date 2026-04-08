@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 스마트 그리드 시뮬레이션</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">2035 NDC · 기후위기 · AI</p>
+        <h1>AI 스마트 그리드 시뮬레이션</h1>
+        <p class="subtitle">
+          학생들이 재생에너지 변동성, 배터리 저장, 전력망 비용, 탄소배출을 직접 조절하며
+          <strong>기본 배분</strong>과 <strong>AI 예측 배분</strong>의 차이를 비교할 수 있는 웹 시뮬레이션입니다.
+        </p>
+      </div>
+      <div class="hero-card">
+        <h2>활동 질문</h2>
+        <ul>
+          <li>태양광과 풍력 비중이 높아질수록 계통전력 사용량은 어떻게 달라질까?</li>
+          <li>배터리 용량을 늘리면 탄소배출과 비용은 얼마나 줄어들까?</li>
+          <li>AI 예측 배분은 언제 가장 큰 효과를 보일까?</li>
+        </ul>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel controls">
+        <h2>시뮬레이션 설정</h2>
+
+        <div class="control">
+          <label for="baseDemand">기본 수요 (kWh/h)</label>
+          <input id="baseDemand" type="range" min="30" max="150" value="80" step="1" />
+          <span id="baseDemandValue">80</span>
+        </div>
+
+        <div class="control">
+          <label for="solarScale">태양광 규모</label>
+          <input id="solarScale" type="range" min="10" max="140" value="70" step="1" />
+          <span id="solarScaleValue">70</span>
+        </div>
+
+        <div class="control">
+          <label for="windScale">풍력 규모</label>
+          <input id="windScale" type="range" min="10" max="120" value="45" step="1" />
+          <span id="windScaleValue">45</span>
+        </div>
+
+        <div class="control">
+          <label for="batteryCapacity">배터리 용량 (kWh)</label>
+          <input id="batteryCapacity" type="range" min="20" max="250" value="120" step="5" />
+          <span id="batteryCapacityValue">120</span>
+        </div>
+
+        <div class="control">
+          <label for="batteryPower">배터리 최대 충·방전 (kWh/h)</label>
+          <input id="batteryPower" type="range" min="10" max="80" value="35" step="1" />
+          <span id="batteryPowerValue">35</span>
+        </div>
+
+        <div class="control">
+          <label for="weather">날씨 상태</label>
+          <select id="weather">
+            <option value="sunny">맑음</option>
+            <option value="mixed" selected>보통</option>
+            <option value="cloudy">흐림</option>
+          </select>
+        </div>
+
+        <div class="control">
+          <label for="season">계절</label>
+          <select id="season">
+            <option value="spring">봄/가을</option>
+            <option value="summer">여름</option>
+            <option value="winter" selected>겨울</option>
+          </select>
+        </div>
+
+        <div class="control">
+          <label for="aiLevel">AI 예측 적극성</label>
+          <input id="aiLevel" type="range" min="1" max="10" value="7" step="1" />
+          <span id="aiLevelValue">7</span>
+        </div>
+
+        <div class="buttons">
+          <button id="runBtn">시뮬레이션 실행</button>
+          <button id="randomBtn" class="secondary">랜덤 시나리오</button>
+        </div>
+
+        <div class="notes">
+          <h3>학생용 해석 팁</h3>
+          <p>AI 예측 배분은 앞으로 3시간의 수요·태양광·풍력·탄소강도를 미리 본다고 가정합니다.</p>
+          <p>따라서 당장 전력이 부족하지 않더라도, <strong>미래 피크 시간대</strong>를 대비해 배터리를 아껴둘 수 있습니다.</p>
+        </div>
+      </section>
+
+      <section class="panel outputs">
+        <h2>결과 비교</h2>
+
+        <div class="cards" id="summaryCards"></div>
+
+        <div class="chart-block">
+          <h3>시간대별 전력 흐름</h3>
+          <canvas id="flowChart" width="960" height="360"></canvas>
+          <p class="caption">실선: AI 배분, 점선: 기본 배분 비교</p>
+        </div>
+
+        <div class="chart-block">
+          <h3>배터리 잔량 변화</h3>
+          <canvas id="batteryChart" width="960" height="260"></canvas>
+        </div>
+
+        <div class="chart-block">
+          <h3>시간대별 데이터 표</h3>
+          <div class="table-wrap">
+            <table id="resultTable">
+              <thead>
+                <tr>
+                  <th>시간</th>
+                  <th>수요</th>
+                  <th>태양광</th>
+                  <th>풍력</th>
+                  <th>기본 Grid</th>
+                  <th>AI Grid</th>
+                  <th>기본 Battery</th>
+                  <th>AI Battery</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>GitHub 업로드용 정적 파일 세트 · index.html / style.css / script.js</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
